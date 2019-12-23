@@ -1,5 +1,6 @@
 import React from 'react';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import CharacterCard from './components/CharacterCard';
 const data = {
   names: ["Jeff", "Dingo", "Jones", "Corntent"],
   races: ["Human", "Elf", "Dwarf", "Halfling"],
@@ -58,22 +59,18 @@ class App extends React.Component {
 
 
   render() {
-    return <div>
+    return <div className="container p-3"><div className="row">
         {!this.state.showCharacters ? 
-         <button onClick={this.generateCharacters.bind(this)}>Generate Characters</button> : 
+         <div className="btn btn-primary" onClick={this.generateCharacters.bind(this)}>Generate Characters</div> : 
+         
         this.state.characters.map((character, index)=>(
-          <div>
-            <h1>{character.name}</h1>
-            <h2>{character.race}</h2>
-            <h3>{character.class}</h3>
-            <p>{character.bravery}</p>
-            <p>{character.reflex}</p>
-            <p>{character.wisdom}</p>
-          </div>
+          <CharacterCard key={index} stats={character}/>
         ))
          
         }
-      </div>;
+        </div>
+      </div>
+    
   }
 }
 
