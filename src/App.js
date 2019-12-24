@@ -69,7 +69,8 @@ class App extends React.Component {
                 class: data.classes[this.rollStats(data.classes.length)],
                 bravery: this.roll20() + data.bonus[race].bravery,
                 reflex: this.roll20() + data.bonus[race].reflex,
-                wisdom: this.roll20() + data.bonus[race].wisdom
+                wisdom: this.roll20() + data.bonus[race].wisdom,
+                bonus: data.bonus[race]
             };
 
             characters.push(stats);
