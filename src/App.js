@@ -54,23 +54,41 @@ class App extends React.Component {
         return Math.floor(Math.random() * 20) + 1;
     }
     // Generate Name, Race, Class between 1 and the length of the array passed
-    rollStats(length) {
+    rollNameRaceClass(length) {
         return Math.floor(Math.random() * length);
     }
 
+    // Minimum of 1 and max of 20 stat points
+    rollStats(stat){
+
+      var roll = this.roll20();
+      var bonus = stat;
+      roll += bonus;
+
+      if(roll >= 20) {
+        return 20;
+      } else if(roll < 1) {
+        return 1;
+      } else {
+        return roll;
+      }
+
+    }
+    
     // Generate the 4 characters of the party
     makeCharacter() {
         var characters = [];
         for (var i = 0; i < 4; i++) {
-            var race = data.races[this.rollStats(data.races.length)];
+            var race = data.races[this.rollNameRaceClass(data.races.length)];
             var stats = {
-                name: data.names[this.rollStats(data.names.length)],
+                name: data.names[this.rollNameRaceClass(data.names.length)],
                 race: race,
-                class: data.classes[this.rollStats(data.classes.length)],
-                bravery: this.roll20() + data.bonus[race].bravery,
-                reflex: this.roll20() + data.bonus[race].reflex,
-                wisdom: this.roll20() + data.bonus[race].wisdom,
+                class: data.classes[this.rollNameRaceClass(data.classes.length)],
+                bravery: this.rollStats(data.bonus[race].bravery),
+                reflex: this.rollStats(data.bonus[race].reflex),
+                wisdom: this.rollStats(data.bonus[race].wisdom),
                 bonus: data.bonus[race]
+
             };
 
             characters.push(stats);
