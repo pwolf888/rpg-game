@@ -1,6 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CharacterCard from './components/CharacterCard';
+import LogEntry from './components/LogEntry';
 const data = {
     names: [
         "Jeff", "Dingo", "Jones", "Corntent"
@@ -10,11 +11,10 @@ const data = {
     ],
     classes: [
         "Knight",
-        "Ranger",
-        "Cleric",
+        // "Ranger", "Cleric",
         "Rogue",
-        "Wizard",
-        "Warlock"
+        "Wizard"
+        // "Warlock"
     ],
     bonus: {
         Human: {
@@ -37,7 +37,9 @@ const data = {
             reflex: 6,
             wisdom: 0
         }
-    }
+    },
+
+    
 }
 
 class App extends React.Component {
@@ -45,7 +47,14 @@ class App extends React.Component {
         super(props);
         this.state = {
             characters: [],
-            showCharacters: false
+            showCharacters: false,
+            log: [{
+                    name: "test",
+                    race: "test",
+                    dialogue: "testing"
+                }],
+            playerAction: "intro"
+            
         }
 
     }
@@ -59,22 +68,22 @@ class App extends React.Component {
     }
 
     // Minimum of 1 and max of 20 stat points
-    rollStats(stat){
+    rollStats(stat) {
 
-      var roll = this.roll20();
-      var bonus = stat;
-      roll += bonus;
+        var roll = this.roll20();
+        var bonus = stat;
+        roll += bonus;
 
-      if(roll >= 20) {
-        return 20;
-      } else if(roll < 1) {
-        return 1;
-      } else {
-        return roll;
-      }
+        if (roll >= 20) {
+            return 20;
+        } else if (roll < 1) {
+            return 1;
+        } else {
+            return roll;
+        }
 
     }
-    
+
     // Generate the 4 characters of the party
     makeCharacter() {
         var characters = [];
@@ -102,9 +111,15 @@ class App extends React.Component {
     generateCharacters() {
         this.setState({
             characters: this.makeCharacter(),
-            showCharacters: !this.state.showCharacters
+            showCharacters: !this.state.showCharacters,
+            
         });
+       
     }
+
+    
+
+    idleBanter() {}
 
     render() {
         return <div className="container p-3">
@@ -120,7 +135,20 @@ class App extends React.Component {
                         .characters
                         .map((character, index) => (<CharacterCard key={index} stats={character}/>))
 }
+
             </div>
+            <hr></hr>
+            {!this.state.showCharacters
+                ? ""
+                : <div className="row">
+                    <div className="col-6">
+                        <h1>Log:</h1>
+                    
+                        <LogEntry  characters={this.state.characters} playerAction={this.state.playerAction} />
+                        
+                    </div>
+                </div>
+}
         </div>
 
     }
